@@ -1,0 +1,103 @@
+use hotelmanagement;
+
+delimiter |
+CREATE TRIGGER TR_CTBAOCAODOANHTHU_BI BEFORE INSERT ON CTBAOCAODOANHTHU
+FOR EACH ROW
+  BEGIN
+	UPDATE BAOCAODOANHTHU bcdt 
+    SET bcdt.TongDoanhThu = TongDoanhThu + NEW.DoanhThuTheoThang 
+    WHERE bcdt.MaBaoCao = NEW.MaBaoCao;
+  END|
+  
+CREATE TRIGGER TR_CTBAOCAODOANHTHU_AI AFTER INSERT ON CTBAOCAODOANHTHU
+FOR EACH ROW
+	BEGIN
+		UPDATE CTBAOCAODOANHTHU ctbc
+        SET TiLe = DoanhThuTheoThang / TongDoanhThu
+        WHERE ctbc.MaBaoCao = NEW.MaBaoCao;
+	END|
+    
+CREATE TRIGGER TR_CTBAOCAODOANHTHU_BU BEFORE UPDATE ON CTBAOCAODOANHTHU
+FOR EACH ROW
+  BEGIN
+	UPDATE BAOCAODOANHTHU bcdt 
+    SET bcdt.TongDoanhThu = TongDoanhThu - OLD.DoanhThuTheoThang + NEW.DoanhThuTheoThang 
+    WHERE bcdt.MaBaoCao = NEW.MaBaoCao;
+  END|
+    
+CREATE TRIGGER TR_CTBAOCAODOANHTHU_AU AFTER UPDATE ON CTBAOCAODOANHTHU
+FOR EACH ROW
+	BEGIN
+		UPDATE CTBAOCAODOANHTHU ctbc
+        SET TiLe = DoanhThuTheoThang / TongDoanhThu
+        WHERE ctbc.MaBaoCao = NEW.MaBaoCao;
+	END|
+    
+CREATE TRIGGER TR_CTBAOCAODOANHTHU_BD BEFORE DELETE ON CTBAOCAODOANHTHU
+FOR EACH ROW
+  BEGIN
+	UPDATE BAOCAODOANHTHU bcdt 
+    SET bcdt.TongDoanhThu = TongDoanhThu - OLD.DoanhThuTheoThang 
+    WHERE bcdt.MaBaoCao = OLD.MaBaoCao;
+  END|
+    
+CREATE TRIGGER TR_CTBAOCAODOANHTHU_AD AFTER DELETE ON CTBAOCAODOANHTHU
+FOR EACH ROW
+	BEGIN
+		UPDATE CTBAOCAODOANHTHU ctbc
+        SET TiLe = DoanhThuTheoThang / TongDoanhThu
+        WHERE ctbc.MaBaoCao = OLD.MaBaoCao;
+	END|
+    
+CREATE TRIGGER TR_BAOCAODOANHTHU_BI BEFORE INSERT ON BAOCAODOANHTHU
+FOR EACH ROW
+	BEGIN
+		if (NEW.TongDoanhTHu <> 0 ) then
+			signal SQLSTATE VALUE '45000' SET MESSAGE_TEXT = 'Tong doanh thu khi khoi tao bang 0';
+		end if;
+	END|
+    
+CREATE TRIGGER TR_BAOCAODOANHTHU_BU BEFORE UPDATE ON BAOCAODOANHTHU
+FOR EACH ROW
+	BEGIN
+		if (NEW.TongDoanhTHu <> OLD.TongDoanhThu) then
+			signal SQLSTATE VALUE '45000' SET MESSAGE_TEXT = 'Tong doanh thu khong the thay doi';
+		end if;
+	END|
+  
+delimiter ;
+
+delimiter |
+
+CREATE TRIGGER TR_CTHD_BI BEFORE INSERT ON CTHD
+FOR EACH ROW
+	BEGIN
+		SET NEW.SoNgayThue = (SELECT NgayLap FROM HOADON hd WHERE NEW.MaHoaDon = hd.MaHoaDon) -
+        (SELECT NgayBatDauThue FROM PHIEUTHUEPHONG ptp WHERE ptp.MaPhieuThuePhong = NEW.MaPhieuThuePhong);
+	END |
+    
+CREATE TRIGGER TR_CTHD_BU BEFORE UPDATE ON CTHD
+FOR EACH ROW
+	BEGIN
+		SET NEW.SoNgayThue = (SELECT NgayLap FROM HOADON hd WHERE NEW.MaHoaDon = hd.MaHoaDon) -
+        (SELECT NgayBatDauThue FROM PHIEUTHUEPHONG ptp WHERE ptp.MaPhieuThuePhong = NEW.MaPhieuThuePhong);
+	END |
+    
+
+CREATE TRIGGER TR_CTHD_AU AFTER UPDATE ON PHIEUTHUEPHONG
+FOR EACH ROW
+	BEGIN
+		UPDATE CTHD cthd, HOADON hd
+        SET cthd.SoNgayThue = hd.NgayLap - NEW.NgayBatDauThue
+        WHERE cthd.MaHoaDon = hd.MaHoaDon AND cthd.MaPhieuThuePhong = NEW.MaPhieuThuePhong;
+	END |
+    
+CREATE TRIGGER TR_CTHD_AU AFTER UPDATE ON HOADON
+FOR EACH ROW
+	BEGIN
+		UPDATE CTHD cthd, PHIEUTHUEPHONG ptp
+        SET cthd.SoNgayThue = NEW.NgayLap - ptp.NgayBatDauThue
+        WHERE cthd.MaHoaDon = NEW.MaHoaDon AND cthd.MaPhieuThuePhong = ptp.MaPhieuThuePhong;
+	END |
+delimiter ;
+
