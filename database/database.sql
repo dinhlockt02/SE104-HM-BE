@@ -21,7 +21,7 @@ create table CTBAOCAODOANHTHU (
 create table LOAIPHONG (
 	MaLoaiPhong VARCHAR(8),
     TenLoaiPhong NVARCHAR(16) NOT NULL,
-    DonGia DECIMAL NOT NULL,
+    DonGia DECIMAL(13,2) NOT NULL,
     CONSTRAINT PK_LOAIPHONG PRIMARY KEY (MaLoaiPhong),
     CONSTRAINT CK_DonGia CHECK(DonGia >0 )
 );
@@ -97,6 +97,8 @@ create table THAMSO (
 	TenThamSo VARCHAR(100),
     GiaTri INT
 );
+
+
 
 
 
