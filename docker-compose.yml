@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  server:
+    image: dinhlockt02/webdev-contest-be
+    env_file:
+      - server/.env
+    command: ["node", "app.js"]
+    ports:
+      - 3000:3000

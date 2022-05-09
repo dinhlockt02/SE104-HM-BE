@@ -2,9 +2,6 @@ const express = require('express');
 require('dotenv').config();
 const apiV1 = require('./api/v1');
 const { sequelize } = require('./api/v1/utils/database_connection');
-const Room = require('./api/v1/models/room');
-const RoomState = require('./api/v1/models/room');
-const RoomType = require('./api/v1/models/room');
 
 const app = express();
 
@@ -27,7 +24,7 @@ sequelize
   // .then(() => sequelize.sync())
   .then(() => {
     console.log('Listen on port 3000');
-    app.listen(3000);
+    app.listen(process.env.SERVER_PORT);
   })
   .catch((error) => {
     console.error('Unable to connect to the database:', error);
