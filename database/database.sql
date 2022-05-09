@@ -1,82 +1,84 @@
+drop database if exists hotelmanagement ;
 create database hotelmanagement;
 use hotelmanagement;
 
 create table BAOCAODOANHTHU (
-	MaBaoCao INT auto_increment,
-    Thang INT,
-    Nam INT,
-    TongDoanhThu DOUBLE,
+	MaBaoCao VARCHAR(8),
+    Thang TINYINT NOT NULL,
+    Nam SMALLINT NOT NULL,
+    TongDoanhThu DECIMAL(13,2),
     CONSTRAINT PK_BAOCAODOANHTHU PRIMARY KEY (MaBaoCao)
 );
 
 create table CTBAOCAODOANHTHU (
-	MaBaoCao INT,
-    MaLoaiPhong INT,
-    DoanhThuTheoThang DOUBLE,
-    TiLe DOUBLE,
+	MaBaoCao VARCHAR(8),
+    MaLoaiPhong VARCHAR(8),
+    DoanhThuTheoThang DOUBLE NOT NULL,
+    TiLe DOUBLE NOT NULL,
     CONSTRAINT PK_CTBAOCAODOANHTHU PRIMARY KEY (MaBaoCao, MaLoaiPhong)
 );
 
 create table LOAIPHONG (
-	MaLoaiPhong INT auto_increment,
-    TenLoaiPhong NVARCHAR(20),
-    DonGia DOUBLE,
-    CONSTRAINT PK_LOAIPHONG PRIMARY KEY (MaLoaiPhong)
+	MaLoaiPhong VARCHAR(8),
+    TenLoaiPhong NVARCHAR(16) NOT NULL,
+    DonGia DECIMAL NOT NULL,
+    CONSTRAINT PK_LOAIPHONG PRIMARY KEY (MaLoaiPhong),
+    CONSTRAINT CK_DonGia CHECK(DonGia >0 )
 );
 
 create table PHONG (
-	MaPhong INT auto_increment,
-    TenPhong NVARCHAR(20),
-    MaLoaiPhong INT,
+	MaPhong VARCHAR(8),
+    TenPhong NVARCHAR(60) NOT NULL,
+    MaLoaiPhong VARCHAR(8) NOT NULL,
     GhiChu TEXT,
-    MaTinhTrang INT,
+    MaTinhTrang VARCHAR(8) NOT NULL,
     CONSTRAINT PK_PHONG PRIMARY KEY (MaPhong)
 );
 
 create table TINHTRANG (
-	MaTinhTrang INT auto_increment,
-    TenTinhTrang nvarchar(20),
+	MaTinhTrang VARCHAR(8),
+    TenTinhTrang nvarchar(40) NOT NULL,
     CONSTRAINT PK_TINHTRANG PRIMARY KEY (MaTinhTrang)
 );
 
 create table PHIEUTHUEPHONG (
-	MaPhieuThuePhong INT auto_increment,
-    NgayBatDauThue date,
-    MaPhong INT,
-    SoKhach INT,
-    DonGiaThueTrenNgay DOUBLE,
+	MaPhieuThuePhong VARCHAR(8),
+    NgayBatDauThue date NOT NULL,
+    MaPhong VARCHAR(8),
+    SoKhach TINYINT NOT NULL,
+    DonGiaThueTrenNgay DECIMAL(13,2) NOT NULL,
     CONSTRAINT PK_PHIEUTHUEPHONG PRIMARY KEY (MaPhieuThuePhong)
 );
 
 create table CTPHIEUTHUEPHONG (
-	MaCTPhieuThuePhong INT auto_increment,
-    MaPhieuThuePhong INT,
-    CMND VARCHAR(20),
-    TenKhachHang NVARCHAR(40),
+	MaCTPhieuThuePhong VARCHAR(8),
+    MaPhieuThuePhong VARCHAR(8),
+    CMND VARCHAR(12),
+    TenKhachHang NVARCHAR(60) NOT NULL,
     DiaChi text,
-    MaLoaiKhach INT,
+    MaLoaiKhach VARCHAR(8),
     CONSTRAINT PK_CTPHIEUTHUEPHONG PRIMARY KEY (MaCTPhieuThuePhong)
 );
 
 create table LOAIKHACH (
-	MaLoaiKhach INT auto_increment,
-    TenLoaiKhach NVARCHAR(20),
-    HeSoPhuThu FLOAT,
+	MaLoaiKhach VARCHAR(8),
+    TenLoaiKhach NVARCHAR(40) NOT NULL,
+    HeSoPhuThu DOUBLE NOT NULL,
     CONSTRAINT PK_LOAIKHACH PRIMARY KEY (MaLoaiKhach)
 );
 
 create table CTHD (
-	MaPhieuThuePhong INT,
-    MaHoaDon INT,
-    SoNgayThue INT,
-    DonGia DOUBLE,
+	MaPhieuThuePhong VARCHAR(8),
+    MaHoaDon VARCHAR(8),
+    SoNgayThue SMALLINT NOT NULL,
+    DonGia DECIMAL(13,2) NOT NULL,
     CONSTRAINT PK_CTHD PRIMARY KEY (MaPhieuThuePhong)
 );
 
 
 create table HOADON (
-	MaHoaDon INT auto_increment,
-    KhachHang_CoQuan NVARCHAR(40),
+	MaHoaDon VARCHAR(8),
+    KhachHang_CoQuan NVARCHAR(60),
     DiaChi text,
     NgayLap DATE,
     TongTien DOUBLE,
@@ -86,12 +88,14 @@ create table HOADON (
 create table TILEPHUTHU (
 	SoKhach INT,
     TiLePhuThu FLOAT,
-    CONSTRAINT PK_PHUTHU PRIMARY KEY (SoKhach)
+    CONSTRAINT PK_PHUTHU PRIMARY KEY (SoKhach),
+    CONSTRAINT CK_SoKhach CHECK(SoKhach > 0),
+    CONSTRAINT CK_TiLePhuThu CHECK(TiLePhuThu >= 0)
 );
 
 create table THAMSO (
-	SoKhachToiDa INT,
-    SoKhachKhongPhuThu INT
+	TenThamSo VARCHAR(100),
+    GiaTri INT
 );
 
 
