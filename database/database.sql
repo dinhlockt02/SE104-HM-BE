@@ -94,6 +94,7 @@ create table TILEPHUTHU (
 );
 
 create table THAMSO (
+	MaThamSo VARCHAR(8) PRIMARY KEY,
 	TenThamSo VARCHAR(100),
     GiaTri INT
 );
