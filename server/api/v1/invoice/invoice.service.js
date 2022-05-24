@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 const { sequelize } = require('../utils/database_connection');
+const { Op } = require('sequelize');
 const { Invoice, InvoiceDetail, Voucher } = require('../models');
 const createRandomString = require('../utils/createRandomString');
 
@@ -76,6 +77,19 @@ const createInvoice = async ({
         transaction,
       }
     );
+
+    await Voucher.update(
+      { DaXoa: true },
+      {
+        where: {
+          MaPhieuThuePhong: {
+            [Op.in]: CacMaPhieuThuePhong,
+          },
+        },
+        transaction,
+      }
+    );
+
     await transaction.commit();
   } catch (error) {
     await transaction.rollback();
