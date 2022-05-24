@@ -8,6 +8,8 @@ const Voucher = require('./voucher');
 const VoucherDetail = require('./voucher_detail');
 const Invoice = require('./invoice');
 const InvoiceDetail = require('./invoice_detail');
+const ReportDetail = require('./report_detail');
+const Report = require('./report');
 
 RoomType.hasMany(Room, { foreignKey: 'MaLoaiPhong' });
 RoomState.hasMany(Room, { foreignKey: 'MaTinhTrang' });
@@ -23,6 +25,10 @@ Invoice.hasMany(InvoiceDetail, { foreignKey: 'MaHoaDon' });
 InvoiceDetail.belongsTo(Invoice, { foreignKey: 'MaHoaDon' });
 Voucher.hasOne(InvoiceDetail, { foreignKey: 'MaPhieuThuePhong' });
 InvoiceDetail.belongsTo(Voucher, { foreignKey: 'MaPhieuThuePhong' });
+ReportDetail.belongsTo(Report, { foreignKey: 'MaBaoCao' });
+Report.hasMany(ReportDetail, { foreignKey: 'MaBaoCao' });
+ReportDetail.belongsTo(RoomType, { foreignKey: 'MaLoaiPhong' });
+RoomType.hasMany(ReportDetail, { foreignKey: 'MaLoaiPhong' });
 
 module.exports = {
   Room,
@@ -35,4 +41,6 @@ module.exports = {
   VoucherDetail,
   Invoice,
   InvoiceDetail,
+  ReportDetail,
+  Report,
 };

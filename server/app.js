@@ -17,7 +17,7 @@ app.use((err, req, res, next) => {
     statusCode = 500;
   }
   console.log(err);
-  res.status(statusCode).json(err);
+  res.status(statusCode).json(err + err.message);
 });
 
 sequelize
