@@ -7,6 +7,7 @@ create table BAOCAODOANHTHU (
     Thang TINYINT NOT NULL,
     Nam SMALLINT NOT NULL,
     TongDoanhThu DECIMAL(13,2),
+    DaXoa bool default false,
     CONSTRAINT PK_BAOCAODOANHTHU PRIMARY KEY (MaBaoCao)
 );
 
@@ -15,6 +16,7 @@ create table CTBAOCAODOANHTHU (
     MaLoaiPhong VARCHAR(8),
     DoanhThuTheoThang DOUBLE NOT NULL,
     TiLe DOUBLE NOT NULL,
+	DaXoa bool default false,
     CONSTRAINT PK_CTBAOCAODOANHTHU PRIMARY KEY (MaBaoCao, MaLoaiPhong)
 );
 
@@ -22,6 +24,7 @@ create table LOAIPHONG (
 	MaLoaiPhong VARCHAR(8),
     TenLoaiPhong NVARCHAR(16) NOT NULL,
     DonGia DECIMAL(13,2) NOT NULL,
+	DaXoa bool default false,
     CONSTRAINT PK_LOAIPHONG PRIMARY KEY (MaLoaiPhong),
     CONSTRAINT CK_DonGia CHECK(DonGia >0 )
 );
@@ -32,12 +35,14 @@ create table PHONG (
     MaLoaiPhong VARCHAR(8) NOT NULL,
     GhiChu TEXT,
     MaTinhTrang VARCHAR(8) NOT NULL,
+	DaXoa bool default false,
     CONSTRAINT PK_PHONG PRIMARY KEY (MaPhong)
 );
 
 create table TINHTRANG (
 	MaTinhTrang VARCHAR(8),
     TenTinhTrang nvarchar(40) NOT NULL,
+	DaXoa bool default false,
     CONSTRAINT PK_TINHTRANG PRIMARY KEY (MaTinhTrang)
 );
 
@@ -47,6 +52,7 @@ create table PHIEUTHUEPHONG (
     MaPhong VARCHAR(8),
     SoKhach TINYINT NOT NULL,
     DonGiaThueTrenNgay DECIMAL(13,2) NOT NULL,
+	DaXoa bool default false,
     CONSTRAINT PK_PHIEUTHUEPHONG PRIMARY KEY (MaPhieuThuePhong)
 );
 
@@ -57,6 +63,7 @@ create table CTPHIEUTHUEPHONG (
     TenKhachHang NVARCHAR(60) NOT NULL,
     DiaChi text,
     MaLoaiKhach VARCHAR(8),
+	DaXoa bool default false,
     CONSTRAINT PK_CTPHIEUTHUEPHONG PRIMARY KEY (MaCTPhieuThuePhong)
 );
 
@@ -64,6 +71,7 @@ create table LOAIKHACH (
 	MaLoaiKhach VARCHAR(8),
     TenLoaiKhach NVARCHAR(40) NOT NULL,
     HeSoPhuThu DOUBLE NOT NULL,
+	DaXoa bool default false,
     CONSTRAINT PK_LOAIKHACH PRIMARY KEY (MaLoaiKhach)
 );
 
@@ -72,6 +80,7 @@ create table CTHD (
     MaHoaDon VARCHAR(8),
     SoNgayThue SMALLINT NOT NULL,
     DonGia DECIMAL(13,2) NOT NULL,
+	DaXoa bool default false,
     CONSTRAINT PK_CTHD PRIMARY KEY (MaPhieuThuePhong)
 );
 
@@ -82,12 +91,13 @@ create table HOADON (
     DiaChi text,
     NgayLap DATE,
     TongTien DOUBLE,
+	DaXoa bool default false,
      CONSTRAINT PK_HOADON PRIMARY KEY (MaHoaDon)
 );
 
 create table TILEPHUTHU (
 	SoKhach INT,
-    TiLePhuThu FLOAT,
+    TiLePhuThu FLOAT, 
     CONSTRAINT PK_PHUTHU PRIMARY KEY (SoKhach),
     CONSTRAINT CK_SoKhach CHECK(SoKhach > 0),
     CONSTRAINT CK_TiLePhuThu CHECK(TiLePhuThu >= 0)

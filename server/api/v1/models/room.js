@@ -33,6 +33,11 @@ const Room = sequelize.define(
         key: 'MaTinhTrang',
       },
     },
+    DaXoa: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   { tableName: 'PHONG', timestamps: false }
 );

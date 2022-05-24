@@ -30,6 +30,11 @@ const InvoiceDetail = sequelize.define(
       type: DataTypes.DECIMAL(13, 2),
       allowNull: false,
     },
+    DaXoa: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   { tableName: 'CTHD', timestamps: false }
 );

@@ -6,6 +6,9 @@ const getAllRooms = async () => {
     include: [{ model: RoomType }, { model: RoomState }],
     raw: true,
     nest: true,
+    where: {
+      DaXoa: false,
+    },
   });
   return rooms.map((room) => {
     const roomData = { ...room, ...room.RoomType, ...room.RoomState };
@@ -26,11 +29,14 @@ const addRoom = async ({ TenPhong, MaLoaiPhong, MaTinhTrang, GhiChu }) => {
 };
 
 const deleteRoom = async ({ MaPhong }) => {
-  Room.destroy({
-    where: {
-      MaPhong,
-    },
-  });
+  Room.update(
+    { DaXoa: true },
+    {
+      where: {
+        MaPhong,
+      },
+    }
+  );
 };
 
 const getRoomByKey = async ({ MaPhong }) => {
@@ -38,6 +44,9 @@ const getRoomByKey = async ({ MaPhong }) => {
     include: [{ model: RoomType }, { model: RoomState }],
     raw: true,
     nest: true,
+    where: {
+      DaXoa: false,
+    },
   });
   const roomData = { ...room, ...room.RoomType, ...room.RoomState };
   delete roomData.RoomState;
@@ -57,6 +66,7 @@ const updateRoomByKey = async ({
     {
       where: {
         MaPhong,
+        DaXoa: false,
       },
     }
   );

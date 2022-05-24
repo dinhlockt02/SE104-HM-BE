@@ -17,6 +17,11 @@ const CustomerType = sequelize.define(
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    DaXoa: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   { tableName: 'LOAIKHACH', timestamps: false }
 );

@@ -37,6 +37,11 @@ const VoucherDetail = sequelize.define(
         key: 'MaLoaiKhach',
       },
     },
+    DaXoa: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   { tableName: 'CTPHIEUTHUEPHONG', timestamps: false }
 );

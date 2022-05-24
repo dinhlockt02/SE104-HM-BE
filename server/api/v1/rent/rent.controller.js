@@ -29,13 +29,14 @@ const createRentRoomVoucher = async (req, res, next) => {
 
 const deleteRentRoomVoucher = async (req, res, next) => {
   try {
-    const { MaPhieuThuePhong } = req.params;
-    await rentService.deleteRentRoomVoucher({
-      MaPhieuThuePhong,
-    });
-    res.status(200).json({
-      message: 'Delete successful',
-    });
+    res.status(200).json({ message: 'API was deprecated' });
+    // const { MaPhieuThuePhong } = req.params;
+    // await rentService.deleteRentRoomVoucher({
+    //   MaPhieuThuePhong,
+    // });
+    // res.status(200).json({
+    //   message: 'Delete successful',
+    // });
   } catch (error) {
     next(error);
   }

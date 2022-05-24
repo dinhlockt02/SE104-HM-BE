@@ -27,9 +27,10 @@ const createInvoice = async (req, res, next) => {
 
 const deleteInvoice = async (req, res, next) => {
   try {
-    const { MaHoaDon } = req.params;
-    await invoiceService.deleteInvoice({ MaHoaDon });
-    res.status(200).json({ message: 'Delete successful' });
+    res.status(200).json({ message: 'API was deprecated' });
+    // const { MaHoaDon } = req.params;
+    // await invoiceService.deleteInvoice({ MaHoaDon });
+    // res.status(200).json({ message: 'Delete successful' });
   } catch (error) {
     next(error);
   }

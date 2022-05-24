@@ -2,7 +2,11 @@ const { CustomerType } = require('../models/index');
 const createRandomString = require('../utils/createRandomString');
 
 const getAllCustomerType = async () => {
-  const customerTypes = await CustomerType.findAll();
+  const customerTypes = await CustomerType.findAll({
+    where: {
+      DaXoa: false,
+    },
+  });
   return customerTypes;
 };
 
@@ -24,22 +28,30 @@ const updateCustomerType = async ({
     {
       where: {
         MaLoaiKhach,
+        DaXoa: false,
       },
     }
   );
 };
 
 const getCustomerTypeByKey = async ({ MaLoaiKhach }) => {
-  const customerType = await CustomerType.findByPk(MaLoaiKhach);
+  const customerType = await CustomerType.findByPk(MaLoaiKhach, {
+    where: {
+      DaXoa: false,
+    },
+  });
   return customerType;
 };
 
 const deleteCustomerType = async ({ MaLoaiKhach }) => {
-  CustomerType.destroy({
-    where: {
-      MaLoaiKhach,
-    },
-  });
+  await CustomerType.update(
+    { DaXoa: true },
+    {
+      where: {
+        MaLoaiKhach,
+      },
+    }
+  );
 };
 
 module.exports = {

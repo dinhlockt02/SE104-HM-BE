@@ -2,7 +2,11 @@ const crypto = require('crypto');
 const { RoomType } = require('../models');
 
 const getAllRoomTypes = async () => {
-  const roomTypes = await RoomType.findAll();
+  const roomTypes = await RoomType.findAll({
+    where: {
+      DaXoa: false,
+    },
+  });
   return roomTypes;
 };
 
@@ -15,11 +19,14 @@ const addRoomType = async ({ TenLoaiPhong, DonGia }) => {
 };
 
 const deleteRoomType = async ({ MaLoaiPhong }) => {
-  RoomType.destroy({
-    where: {
-      MaLoaiPhong,
-    },
-  });
+  RoomType.update(
+    { DaXoa: true },
+    {
+      where: {
+        MaLoaiPhong,
+      },
+    }
+  );
 };
 
 const updateRoomTypeByKey = async ({ MaLoaiPhong, TenLoaiPhong, DonGia }) => {
@@ -28,6 +35,7 @@ const updateRoomTypeByKey = async ({ MaLoaiPhong, TenLoaiPhong, DonGia }) => {
     {
       where: {
         MaLoaiPhong,
+        DaXoa: false,
       },
     }
   );

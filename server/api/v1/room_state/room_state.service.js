@@ -1,7 +1,12 @@
 const { RoomState } = require('../models');
 const createRandomString = require('../utils/createRandomString');
 
-const getRoomState = async () => RoomState.findAll();
+const getRoomState = async () =>
+  RoomState.findAll({
+    where: {
+      DaXoa: false,
+    },
+  });
 const addRoomState = async ({ TenTinhTrang }) => {
   await RoomState.create({
     MaTinhTrang: createRandomString(8),
@@ -15,17 +20,21 @@ const putRoomState = async ({ TenTinhTrang, MaTinhTrang }) => {
     {
       where: {
         MaTinhTrang,
+        DaXoa: false,
       },
     }
   );
 };
 
 const deleteRoomState = async ({ MaTinhTrang }) => {
-  await RoomState.destroy({
-    where: {
-      MaTinhTrang,
-    },
-  });
+  await RoomState.update(
+    { DaXoa: true },
+    {
+      where: {
+        MaTinhTrang,
+      },
+    }
+  );
 };
 
 module.exports = {

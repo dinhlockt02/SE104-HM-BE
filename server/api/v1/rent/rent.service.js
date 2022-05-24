@@ -7,6 +7,9 @@ const getRenRoomVouchers = async () => {
     include: [{ model: Room, include: RoomType }],
     raw: true,
     nest: true,
+    where: {
+      DaXoa: false,
+    },
   });
   vouchers.forEach((voucher) => {
     // eslint-disable-next-line no-param-reassign
@@ -23,6 +26,7 @@ const getRenRoomVouchers = async () => {
       const voucherDetails = await VoucherDetail.findAll({
         where: {
           MaPhieuThuePhong: voucher.MaPhieuThuePhong,
+          DaXoa: false,
         },
       });
       // eslint-disable-next-line no-param-reassign
@@ -75,7 +79,8 @@ const createRentRoomVoucher = async ({
 const deleteRentRoomVoucher = async ({ MaPhieuThuePhong }) => {
   const transaction = await sequelize.transaction();
   try {
-    await VoucherDetail.destroy(
+    await VoucherDetail.update(
+      { DaXoa: true },
       {
         where: {
           MaPhieuThuePhong,
@@ -83,7 +88,8 @@ const deleteRentRoomVoucher = async ({ MaPhieuThuePhong }) => {
       },
       { transaction }
     );
-    await Voucher.destroy(
+    await Voucher.update(
+      { DaXoa: true },
       {
         where: {
           MaPhieuThuePhong,

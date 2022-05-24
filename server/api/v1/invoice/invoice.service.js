@@ -4,7 +4,12 @@ const { Invoice, InvoiceDetail, Voucher } = require('../models');
 const createRandomString = require('../utils/createRandomString');
 
 const getInvoices = async () => {
-  const invoices = await Invoice.findAll({ raw: true });
+  const invoices = await Invoice.findAll({
+    raw: true,
+    where: {
+      DaXoa: false,
+    },
+  });
   return Promise.all(
     invoices.map(async (invoice) => {
       const invoiceDetails = await InvoiceDetail.findAll({
