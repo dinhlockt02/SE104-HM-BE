@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-const { sequelize } = require('../utils/database_connection');
 const { Op } = require('sequelize');
+const { sequelize } = require('../utils/database_connection');
 const { Invoice, InvoiceDetail, Voucher } = require('../models');
 const createRandomString = require('../utils/createRandomString');
 

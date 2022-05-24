@@ -1,4 +1,4 @@
-const { Report, ReportDetail } = require('../models');
+const { Report, ReportDetail, RoomType } = require('../models');
 const { sequelize } = require('../utils/database_connection');
 const createRandomString = require('../utils/createRandomString');
 
@@ -106,12 +106,17 @@ const createReport = async ({ Thang, Nam }) => {
 
 const getReport = async ({ Thang, Nam }) => {
   const TodayDate = new Date();
-  const m = TodayDate.getMonth();
+  const m = TodayDate.getMonth() + 1;
   const y = TodayDate.getFullYear();
-  if (!(y > Nam || (y === Nam && m > Thang)))
+  if (
+    !(
+      y > Number.parseInt(Nam, 10) ||
+      (y === Number.parseInt(Nam, 10) && m > Thang)
+    )
+  )
     throw Error("Report can't be created because time");
   const report = await Report.findOne({
-    include: [{ model: ReportDetail }],
+    include: [{ model: ReportDetail, include: [{ model: RoomType }] }],
     where: {
       DaXoa: false,
       Thang,
@@ -121,7 +126,7 @@ const getReport = async ({ Thang, Nam }) => {
   if (report != null) return report;
   await createReport({ Thang, Nam });
   return Report.findOne({
-    include: [{ model: ReportDetail }],
+    include: [{ model: ReportDetail, include: [{ model: RoomType }] }],
     where: {
       DaXoa: false,
       Thang,
