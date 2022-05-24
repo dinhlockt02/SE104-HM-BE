@@ -27,7 +27,22 @@ const createRentRoomVoucher = async (req, res, next) => {
   }
 };
 
+const deleteRentRoomVoucher = async (req, res, next) => {
+  try {
+    const { MaPhieuThuePhong } = req.params;
+    await rentService.deleteRentRoomVoucher({
+      MaPhieuThuePhong,
+    });
+    res.status(200).json({
+      message: 'Delete successful',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createRentRoomVoucher,
   getRenRoomVoucher,
+  deleteRentRoomVoucher,
 };

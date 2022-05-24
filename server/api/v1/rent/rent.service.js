@@ -38,34 +38,68 @@ const createRentRoomVoucher = async ({
   CacKhachHang,
   DonGiaThueTrenNgay,
 }) => {
-  const t = await sequelize.transaction();
+  const transaction = await sequelize.transaction();
   try {
-    const vourcher = await Voucher.create({
-      MaPhieuThuePhong: createRandomString(8),
-      NgayBatDauThue,
-      MaPhong,
-      SoKhach: CacKhachHang.length,
-      DonGiaThueTrenNgay,
-    });
+    const vourcher = await Voucher.create(
+      {
+        MaPhieuThuePhong: createRandomString(8),
+        NgayBatDauThue,
+        MaPhong,
+        SoKhach: CacKhachHang.length,
+        DonGiaThueTrenNgay,
+      },
+      { transaction }
+    );
     await Promise.all(
       CacKhachHang.map((khachHang) =>
-        VoucherDetail.create({
-          MaCTPhieuThuePhong: createRandomString(8),
-          MaPhieuThuePhong: vourcher.MaPhieuThuePhong,
-          CMND: khachHang.CMND,
-          TenKhachHang: khachHang.TenKhachHang,
-          DiaChi: khachHang.DiaChi,
-          MaLoaiKhach: khachHang.MaLoaiKhach,
-        })
+        VoucherDetail.create(
+          {
+            MaCTPhieuThuePhong: createRandomString(8),
+            MaPhieuThuePhong: vourcher.MaPhieuThuePhong,
+            CMND: khachHang.CMND,
+            TenKhachHang: khachHang.TenKhachHang,
+            DiaChi: khachHang.DiaChi,
+            MaLoaiKhach: khachHang.MaLoaiKhach,
+          },
+          { transaction }
+        )
       )
     );
-    await t.commit();
+    await transaction.commit();
   } catch (error) {
-    await t.rollback();
+    await transaction.rollback();
+    throw error;
+  }
+};
+
+const deleteRentRoomVoucher = async ({ MaPhieuThuePhong }) => {
+  const transaction = await sequelize.transaction();
+  try {
+    await VoucherDetail.destroy(
+      {
+        where: {
+          MaPhieuThuePhong,
+        },
+      },
+      { transaction }
+    );
+    await Voucher.destroy(
+      {
+        where: {
+          MaPhieuThuePhong,
+        },
+      },
+      { transaction }
+    );
+    await transaction.commit();
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
   }
 };
 
 module.exports = {
   createRentRoomVoucher,
   getRenRoomVouchers,
+  deleteRentRoomVoucher,
 };

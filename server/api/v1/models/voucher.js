@@ -10,7 +10,7 @@ const Voucher = sequelize.define(
       primaryKey: true,
     },
     NgayBatDauThue: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     MaPhong: {
