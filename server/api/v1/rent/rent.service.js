@@ -6,6 +6,7 @@ const {
   RoomState,
   InvoiceDetail,
   Invoice,
+  CustomerType,
 } = require('../models');
 const createRandomString = require('../utils/createRandomString');
 const { sequelize } = require('../utils/database_connection');
@@ -117,6 +118,7 @@ const getRentRoomVoucherByKey = async ({ MaPhieuThuePhong }) => {
     include: [
       { model: Room, include: [RoomType] },
       { model: InvoiceDetail, include: [Invoice] },
+      { model: VoucherDetail, include: [CustomerType] },
     ],
   });
   return voucher;
