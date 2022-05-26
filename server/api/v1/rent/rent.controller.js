@@ -42,8 +42,19 @@ const deleteRentRoomVoucher = async (req, res, next) => {
   }
 };
 
+const getRentRoomVoucherByKey = async (req, res, next) => {
+  try {
+    const { MaPhieuThuePhong } = req.params;
+    const DAO = await rentService.getRentRoomVoucherByKey({ MaPhieuThuePhong });
+    res.status(200).json(DAO);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createRentRoomVoucher,
   getRenRoomVoucher,
   deleteRentRoomVoucher,
+  getRentRoomVoucherByKey,
 };

@@ -1,4 +1,12 @@
-const { Voucher, VoucherDetail, Room, RoomType } = require('../models');
+const {
+  Voucher,
+  VoucherDetail,
+  Room,
+  RoomType,
+  RoomState,
+  InvoiceDetail,
+  Invoice,
+} = require('../models');
 const createRandomString = require('../utils/createRandomString');
 const { sequelize } = require('../utils/database_connection');
 
@@ -104,8 +112,20 @@ const deleteRentRoomVoucher = async ({ MaPhieuThuePhong }) => {
   }
 };
 
+const getRentRoomVoucherByKey = async ({ MaPhieuThuePhong }) => {
+  const voucher = await Voucher.findByPk(MaPhieuThuePhong, {
+    include: [
+      { model: Room, include: [RoomType] },
+      { model: InvoiceDetail, include: [Invoice] },
+    ],
+  });
+  const room = await Room.findByPk(voucher.MaPhong);
+  return voucher;
+};
+
 module.exports = {
   createRentRoomVoucher,
   getRenRoomVouchers,
   deleteRentRoomVoucher,
+  getRentRoomVoucherByKey,
 };
