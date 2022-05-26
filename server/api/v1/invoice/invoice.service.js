@@ -18,6 +18,7 @@ const getInvoices = async () => {
           MaHoaDon: invoice.MaHoaDon,
         },
       });
+      console.log(invoiceDetails);
       // eslint-disable-next-line no-param-reassign
       invoice.CTHD = invoiceDetails;
       return invoice;
@@ -29,7 +30,8 @@ const createInvoice = async ({
   KhachHang_CoQuan,
   DiaChi,
   NgayLap,
-  CacMaPhieuThuePhong,
+  TongTien,
+  CacPhieuThuePhong,
 }) => {
   const transaction = await sequelize.transaction({
     autocommit: false,
@@ -41,41 +43,23 @@ const createInvoice = async ({
         KhachHang_CoQuan,
         DiaChi,
         NgayLap,
-        TongTien: 0,
+        TongTien,
       },
       { transaction }
     );
 
-    let TongTien = 0;
-
     await Promise.all(
-      CacMaPhieuThuePhong.map(async (MaPhieuThuePhong) => {
-        const voucher = await Voucher.findByPk(MaPhieuThuePhong);
-        const SoNgayThue =
-          (Date.parse(invoice.NgayLap) - Date.parse(voucher.NgayBatDauThue)) /
-          (1000 * 60 * 60 * 24);
-        const DonGia = SoNgayThue * voucher.DonGiaThueTrenNgay;
-        TongTien += DonGia;
+      CacPhieuThuePhong.map(async (PhieuThuePhong) => {
         await InvoiceDetail.create(
           {
-            MaPhieuThuePhong,
+            MaPhieuThuePhong: PhieuThuePhong.MaPhieuThuePhong,
             MaHoaDon: invoice.MaHoaDon,
-            SoNgayThue,
-            DonGia,
+            SoNgayThue: PhieuThuePhong.SoNgayThue,
+            DonGia: PhieuThuePhong.DonGia,
           },
           { transaction }
         );
       })
-    );
-
-    await Invoice.update(
-      { TongTien },
-      {
-        where: {
-          MaHoaDon: invoice.MaHoaDon,
-        },
-        transaction,
-      }
     );
 
     await Voucher.update(
@@ -83,7 +67,9 @@ const createInvoice = async ({
       {
         where: {
           MaPhieuThuePhong: {
-            [Op.in]: CacMaPhieuThuePhong,
+            [Op.in]: CacPhieuThuePhong.map(
+              (PhieuThuePhong) => PhieuThuePhong.MaPhieuThuePhong
+            ),
           },
         },
         transaction,

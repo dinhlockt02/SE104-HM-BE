@@ -12,12 +12,14 @@ const getInvoices = async (req, res, next) => {
 
 const createInvoice = async (req, res, next) => {
   try {
-    const { KhachHang_CoQuan, DiaChi, NgayLap, CacMaPhieuThuePhong } = req.body;
+    const { KhachHang_CoQuan, DiaChi, NgayLap, TongTien, CacPhieuThuePhong } =
+      req.body;
     await invoiceService.createInvoice({
       KhachHang_CoQuan,
       DiaChi,
       NgayLap,
-      CacMaPhieuThuePhong,
+      TongTien,
+      CacPhieuThuePhong,
     });
     res.status(200).json({ message: 'Create invoice successful' });
   } catch (error) {
