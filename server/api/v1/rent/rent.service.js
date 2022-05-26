@@ -119,7 +119,6 @@ const getRentRoomVoucherByKey = async ({ MaPhieuThuePhong }) => {
       { model: InvoiceDetail, include: [Invoice] },
     ],
   });
-  const room = await Room.findByPk(voucher.MaPhong);
   return voucher;
 };
 
