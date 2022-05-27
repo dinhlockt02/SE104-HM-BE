@@ -1,3 +1,4 @@
+const ExcelJS = require('exceljs');
 const { Report, ReportDetail, RoomType } = require('../models');
 const { sequelize } = require('../utils/database_connection');
 const createRandomString = require('../utils/createRandomString');
@@ -135,6 +136,58 @@ const getReport = async ({ Thang, Nam }) => {
   });
 };
 
+const getReportExcel = async ({ Thang, Nam }) => {
+  const report = await getReport({ Thang, Nam });
+  const reportDetailExcel = report.ReportDetails.map((reportDetail) => ({
+    MaLoaiPhong: reportDetail.MaLoaiPhong,
+    DoanhThuTheoThang: Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(reportDetail.DoanhThuTheoThang),
+    TiLe: reportDetail.TiLe,
+    TenLoaiPhong: reportDetail.RoomType.TenLoaiPhong,
+  }));
+  const workbook = new ExcelJS.Workbook();
+  const font = { size: 16 };
+  const sheet = workbook.addWorksheet(
+    `Tháng ${report.Thang} Năm ${report.Nam}`
+  );
+  sheet.columns = [
+    { header: 'Mã loại phòng', key: 'MaLoaiPhong', width: 30 },
+    { header: 'Tên loại phòng', key: 'TenLoaiPhong', width: 30 },
+    { header: 'Tỉ lệ', key: 'TiLe', width: 20, style: { numFmt: '0.00%' } },
+    {
+      header: 'Doanh thu theo tháng',
+      key: 'DoanhThuTheoThang',
+      width: 30,
+    },
+  ];
+  sheet.addRows(reportDetailExcel);
+  const sumRow = sheet.rowCount + 1;
+  sheet.mergeCells(`A${sumRow}:B${sumRow}`);
+  sheet.getCell(`A${sumRow}`).value = 'Tổng';
+  sheet.getCell(`C${sumRow}`).value = 1;
+  sheet.getCell(`C${sumRow}`).numFmt = '0.00%';
+  sheet.getCell(`D${sumRow}`).value = Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(report.TongDoanhThu);
+  sheet.eachRow((row) => {
+    row.eachCell((cel) => {
+      cel.font = font;
+      cel.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+  });
+
+  sheet.getCell(`A${sumRow}`).font = { ...font, bold: true };
+  sheet.getCell(`C${sumRow}`).font = { ...font, bold: true };
+  sheet.getCell(`D${sumRow}`).font = { ...font, bold: true };
+  const filename = `${__dirname}/report.xlsx`;
+  await workbook.xlsx.writeFile(filename);
+  return filename;
+};
+
 module.exports = {
   getReport,
+  getReportExcel,
 };

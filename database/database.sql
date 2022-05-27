@@ -84,7 +84,6 @@ create table CTHD (
     CONSTRAINT PK_CTHD PRIMARY KEY (MaPhieuThuePhong)
 );
 
-
 create table HOADON (
 	MaHoaDon VARCHAR(8),
     KhachHang_CoQuan NVARCHAR(60),
