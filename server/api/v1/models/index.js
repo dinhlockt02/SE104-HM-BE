@@ -10,6 +10,8 @@ const Invoice = require('./invoice');
 const InvoiceDetail = require('./invoice_detail');
 const ReportDetail = require('./report_detail');
 const Report = require('./report');
+const User = require('./user');
+const UserGroup = require('./user_group');
 
 RoomType.hasMany(Room, { foreignKey: 'MaLoaiPhong' });
 RoomState.hasMany(Room, { foreignKey: 'MaTinhTrang' });
@@ -29,6 +31,8 @@ ReportDetail.belongsTo(Report, { foreignKey: 'MaBaoCao' });
 Report.hasMany(ReportDetail, { foreignKey: 'MaBaoCao' });
 ReportDetail.belongsTo(RoomType, { foreignKey: 'MaLoaiPhong' });
 RoomType.hasMany(ReportDetail, { foreignKey: 'MaLoaiPhong' });
+User.belongsTo(UserGroup, { foreignKey: 'MaNhom' });
+UserGroup.hasMany(User, { foreignKey: 'MaNhom' });
 
 module.exports = {
   Room,
@@ -43,4 +47,6 @@ module.exports = {
   InvoiceDetail,
   ReportDetail,
   Report,
+  User,
+  UserGroup,
 };

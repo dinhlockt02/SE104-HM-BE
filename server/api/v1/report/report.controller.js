@@ -15,7 +15,6 @@ const getReportExcel = async (req, res, next) => {
   try {
     const { Thang, Nam } = req.params;
     const filename = await reportService.getReportExcel({ Thang, Nam });
-    console.log(filename);
     res.setHeader('Content-Disposition', 'attachment; filename=report.xlsx');
     res.status(200).sendFile(filename, (err) => {
       if (err) {

@@ -8,6 +8,7 @@ const rent = require('./rent');
 const roomState = require('./room_state');
 const invoice = require('./invoice');
 const report = require('./report');
+const user = require('./user');
 
 router.use('/room', room);
 router.use('/room-type', roomType);
@@ -17,5 +18,6 @@ router.use('/setting', setting);
 router.use('/rent', rent);
 router.use('/invoice', invoice);
 router.use('/report', report);
+router.use('/user', user);
 
 module.exports = router;
