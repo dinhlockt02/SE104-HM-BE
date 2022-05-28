@@ -22,9 +22,13 @@ INSERT INTO THAMSO(MaThamSo, TenThamSo, GiaTri) VALUES ('MTS02' ,'SoKhachKhongPh
 
 INSERT INTO TILEPHUTHU(SoKhach, TiLePhuThu) VALUES (3, 0.25);
 
-INSERT INTO NHOMNGUOIDUNG(MaNhom,TenNhom,CapBac) VALUES ('NGD001', 'Master Admin', 0);
-INSERT INTO NGUOIDUNG(MaNguoiDung,HoTen,Email,MatKhau,MaNhom) VALUES ('NGD002', 'Admin', 1);
+INSERT INTO NHOMNGUOIDUNG(MaNhom,TenNhom,CapBac) VALUES ('NGD001', 'Admin', 0);
+INSERT INTO NGUOIDUNG(MaNguoiDung,HoTen,Email,MatKhau,MaNhom) VALUES ('ND001', 'Master Admin', 'daijoubuteam7@gmail.com', '$2a$10$7o5r3t6h2Jd5nh5cT34vSeBvJdkev9PGtT8wQtxF5xuvHQv/lU/Ai', 'NGD001');
 
+INSERT INTO NHOMNGUOIDUNG(MaNhom,TenNhom,CapBac) VALUES ('NGD002', 'User', 1);
+INSERT INTO NGUOIDUNG(MaNguoiDung,HoTen,Email,MatKhau,MaNhom) VALUES ('ND002', 'User 1', 'dinhlockt02@gmail.com', '$2a$10$7o5r3t6h2Jd5nh5cT34vSeBvJdkev9PGtT8wQtxF5xuvHQv/lU/Ai', 'NGD002');
+INSERT INTO NGUOIDUNG(MaNguoiDung,HoTen,Email,MatKhau,MaNhom) VALUES ('ND003', 'User 2', 'quangnguyen221202@gmail.com', '$2a$10$7o5r3t6h2Jd5nh5cT34vSeBvJdkev9PGtT8wQtxF5xuvHQv/lU/Ai', 'NGD002');
+INSERT INTO NGUOIDUNG(MaNguoiDung,HoTen,Email,MatKhau,MaNhom) VALUES ('ND004', 'User 3', 'phuquang14722@gmail.com', '$2a$10$7o5r3t6h2Jd5nh5cT34vSeBvJdkev9PGtT8wQtxF5xuvHQv/lU/Ai', 'NGD002');
 
 SET SQL_SAFE_UPDATES = 0;
 SELECT * FROM HOADON;
