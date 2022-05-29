@@ -114,7 +114,8 @@ create table NGUOIDUNG (
 	HoTen VARCHAR(60) NOT NULL,
     Email VARCHAR(60) NOT NULL,
     MatKhau VARCHAR(100) NOT NULL,
-    MaNhom VARCHAR(8) NOT NULL
+    MaNhom VARCHAR(8) NOT NULL,
+	ResetCode VARCHAR(4)
 );
 
 

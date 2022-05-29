@@ -10,6 +10,28 @@ const login = async (req, res, next) => {
   }
 };
 
+const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    await service.forgotPassword(email);
+    res.status(200).json({ message: 'Send successful' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const { ResetCode, MatKhau } = req.body;
+    await service.resetPassword({ ResetCode, MatKhau });
+    res.status(200).json({ message: 'Update successful' });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
+  forgotPassword,
+  resetPassword,
 };

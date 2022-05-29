@@ -40,9 +40,19 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+const getAllUserGroup = async (req, res, next) => {
+  try {
+    const DAO = await service.getAllUserGroup();
+    res.status(200).json(DAO);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllUser,
   createUser,
   editUser,
   deleteUser,
+  getAllUserGroup,
 };

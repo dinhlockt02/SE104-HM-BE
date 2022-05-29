@@ -39,9 +39,12 @@ const deleteUser = async (MaNguoiDung) => {
   });
 };
 
+const getAllUserGroup = async () => UserGroup.findAll();
+
 module.exports = {
   getAllUsers,
   createUser,
   editUser,
   deleteUser,
+  getAllUserGroup,
 };

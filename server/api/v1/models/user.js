@@ -29,6 +29,9 @@ const User = sequelize.define(
         key: 'MaNhom',
       },
     },
+    ResetCode: {
+      type: DataTypes.STRING(4),
+    },
   },
   { tableName: 'NGUOIDUNG', timestamps: false }
 );
