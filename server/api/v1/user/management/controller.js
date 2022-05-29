@@ -11,8 +11,8 @@ const getAllUser = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const { HoTen, Email, MatKhau, MaNhom } = req.body;
-    await service.createUser({ HoTen, Email, MatKhau, MaNhom });
+    const { HoTen, Email, MaNhom } = req.body;
+    await service.createUser({ HoTen, Email, MaNhom });
     res.status(201).json({ message: 'Create successful' });
   } catch (error) {
     next(error);
