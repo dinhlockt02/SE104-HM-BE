@@ -29,9 +29,17 @@ const getReportExcel = async (req, res, next) => {
     next(error);
   }
 };
+const getReportsInYears = async (req, res, next) => {
+  try {
+    const DAO = await reportService.getReportsInYears();
+    res.status(200).json(DAO);
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getReport,
-
+  getReportsInYears,
   getReportExcel,
 };

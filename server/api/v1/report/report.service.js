@@ -7,7 +7,7 @@ const timTongDoanhThuTheoThangQuery = ({
   Thang,
   Nam,
 }) => `SELECT PHONG.MaLoaiPhong,
-SUM(CTHD.DonGia) as TongDoanhThuTheoThang
+SUM(CTHD.DonGia * CTHD.SoNgayThue) as TongDoanhThuTheoThang
 FROM PHONG, PHIEUTHUEPHONG, CTHD, HOADON 
 WHERE PHONG.MaPhong = PHIEUTHUEPHONG.MaPhong 
 AND PHIEUTHUEPHONG.MaPhieuThuePhong = CTHD.MaPhieuThuePhong 
@@ -136,6 +136,20 @@ const getReport = async ({ Thang, Nam }) => {
   });
 };
 
+const getReportsInYears = async () => {
+  const currentMonth = new Date().getMonth() + 1;
+  const currentYear = new Date().getFullYear();
+  const reportMonths = [];
+  for (let i = 1; i < currentMonth; i += 1) {
+    reportMonths.push(i);
+  }
+  const reports = await Promise.all(
+    reportMonths.map((month) => getReport({ Thang: month, Nam: currentYear }))
+  );
+
+  return reports;
+};
+
 const getReportExcel = async ({ Thang, Nam }) => {
   const report = await getReport({ Thang, Nam });
   const reportDetailExcel = report.ReportDetails.map((reportDetail) => ({
@@ -190,4 +204,5 @@ const getReportExcel = async ({ Thang, Nam }) => {
 module.exports = {
   getReport,
   getReportExcel,
+  getReportsInYears,
 };
