@@ -14,7 +14,7 @@ const addSurcharge = async (req, res, next) => {
     const { SoKhach } = req.params;
     const { TiLePhuThu } = req.body;
     await surchargeService.addSurcharge({ SoKhach, TiLePhuThu });
-    res.status(200).json({ message: 'Add surcharge successful' });
+    res.status(201).json({ message: 'Add surcharge successful' });
   } catch (error) {
     next(error);
   }

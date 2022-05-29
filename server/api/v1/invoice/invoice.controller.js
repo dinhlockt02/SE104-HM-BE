@@ -21,7 +21,7 @@ const createInvoice = async (req, res, next) => {
       TongTien,
       CacPhieuThuePhong,
     });
-    res.status(200).json({ message: 'Create invoice successful' });
+    res.status(201).json({ message: 'Create invoice successful' });
   } catch (error) {
     next(error);
   }

@@ -12,12 +12,14 @@ app.use(cors());
 app.use('/api/v1', apiV1);
 
 app.use((err, req, res, next) => {
-  let { statusCode } = err;
+  let { statusCode, message } = err;
   if (!statusCode) {
     statusCode = 500;
   }
-  console.log(err);
-  res.status(statusCode).json(err);
+  if (!message) {
+    message = error;
+  }
+  res.status(statusCode).json(message);
 });
 
 sequelize

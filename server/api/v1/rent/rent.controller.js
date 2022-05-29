@@ -19,7 +19,7 @@ const createRentRoomVoucher = async (req, res, next) => {
       CacKhachHang,
       DonGiaThueTrenNgay,
     });
-    res.status(200).json({
+    res.status(201).json({
       message: 'Create successful',
     });
   } catch (error) {
