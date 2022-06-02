@@ -10,14 +10,15 @@ const getSurcharges = async (req, res, next) => {
 };
 
 const addSurcharge = async (req, res, next) => {
-  try {
-    const { SoKhach } = req.params;
-    const { TiLePhuThu } = req.body;
-    await surchargeService.addSurcharge({ SoKhach, TiLePhuThu });
-    res.status(201).json({ message: 'Add surcharge successful' });
-  } catch (error) {
-    next(error);
-  }
+  res.status(200).json({ message: 'API was deprecated' });
+  // try {
+  //   const { SoKhach } = req.params;
+  //   const { TiLePhuThu } = req.body;
+  //   await surchargeService.addSurcharge({ SoKhach, TiLePhuThu });
+  //   res.status(201).json({ message: 'Add surcharge successful' });
+  // } catch (error) {
+  //   next(error);
+  // }
 };
 
 const updateSurcharge = async (req, res, next) => {
@@ -32,13 +33,14 @@ const updateSurcharge = async (req, res, next) => {
 };
 
 const deleteSurcharge = async (req, res, next) => {
-  try {
-    const { SoKhach } = req.params;
-    await surchargeService.deleteSurcharge({ SoKhach });
-    res.status(200).json({ message: 'Delete surcharge successful' });
-  } catch (error) {
-    next(error);
-  }
+  res.status(200).json({ message: 'API was decprecated' });
+  // try {
+  //   const { SoKhach } = req.params;
+  //   await surchargeService.deleteSurcharge({ SoKhach });
+  //   res.status(200).json({ message: 'Delete surcharge successful' });
+  // } catch (error) {
+  //   next(error);
+  // }
 };
 
 module.exports = {

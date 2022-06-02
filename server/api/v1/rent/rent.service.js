@@ -3,7 +3,6 @@ const {
   VoucherDetail,
   Room,
   RoomType,
-  RoomState,
   InvoiceDetail,
   Invoice,
   CustomerType,
@@ -62,6 +61,15 @@ const createRentRoomVoucher = async ({
         DonGiaThueTrenNgay,
       },
       { transaction }
+    );
+    await Room.update(
+      { MaTinhTrang: 'TT002' },
+      {
+        where: {
+          MaPhong,
+        },
+        transaction,
+      }
     );
     await Promise.all(
       CacKhachHang.map((khachHang) =>

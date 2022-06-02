@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { Op } = require('sequelize');
 const { sequelize } = require('../utils/database_connection');
-const { Invoice, InvoiceDetail, Voucher } = require('../models');
+const { Invoice, InvoiceDetail, Voucher, Room } = require('../models');
 const createRandomString = require('../utils/createRandomString');
 
 const getInvoices = async () => {
@@ -59,6 +59,16 @@ const createInvoice = async ({
           },
           { transaction }
         );
+        const voucher = await Voucher.findByPk(PhieuThuePhong.MaPhieuThuePhong);
+        await Room.update(
+          { MaTinhTrang: 'TT001' },
+          {
+            where: {
+              MaPhong: voucher.MaPhong,
+            },
+            transaction,
+          }
+        );
       })
     );
 
@@ -82,7 +92,6 @@ const createInvoice = async ({
     throw error;
   }
 };
-
 const deleteInvoice = async ({ MaHoaDon }) => {
   const transaction = await sequelize.transaction({
     autocommit: false,
